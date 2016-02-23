@@ -6,7 +6,8 @@ public class Bar {
 	public String item;
 	public int count;
 	public int alert;
-
+	public String Serving;
+	public int ServeMultiplier;
 
 	public void setid(int id){
 		this.id=id;
@@ -25,7 +26,13 @@ public class Bar {
 		this.alert=alert;
 
 	}
+	public void setServing(String Serving){
+		this.Serving=Serving;
+	}
 
+	public void setServeMultiplier(int ServeMultiplier){
+		this.ServeMultiplier=ServeMultiplier;
+	}
 	public int getid(){
 		return id;
 
@@ -33,6 +40,10 @@ public class Bar {
 	public String getitem() {
 
 		return item;
+	}
+	public String getServing(){
+		return Serving;
+		
 	}
 	public int getcount() {
 
@@ -42,7 +53,10 @@ public class Bar {
 
 		return alert;
 	}
-
+public int getServeMultiplier(){
+	return ServeMultiplier;
+	
+}
 
 }
 

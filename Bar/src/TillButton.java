@@ -4,45 +4,29 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class TillButton extends JButton{
-	int tillid;
-	int tillcount;
-	int tillitem;
-	int tillalert;
-Stock stockitem;
 
-	public TillButton(Stock stockitem){
+	Bar bar;
 
-
-		JButton TB = new JButton();
-		this.tillid = 7;
+	public TillButton(Bar bar){
+		super(bar.Serving +" "+bar.item);
+		this.bar = bar;
+		
 		this.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				on7Clicked(ae);
-
+				onButtonClicked(ae);
 			}
-
-
-
-
 		});
 	}
 
 
-	public void on7Clicked(ActionEvent ae) {
+	public void onButtonClicked(ActionEvent ae) {
 		BarDAO barDAO = new BarDAO();
-		Bar bar = new Bar();
-		bar.setid(tillid);
-		barDAO.update(bar);
+		
+		barDAO.decrement(bar);
 		barDAO.check(bar);
 
-
-
-
-
-		//StockControl.removefromDB();
-
-		//StockControl.createlist();
+	
 
 	}
 

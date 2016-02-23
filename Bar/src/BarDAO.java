@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BarDAO {
 
@@ -38,17 +39,17 @@ public class BarDAO {
 			sqle.printStackTrace();
 		}
 	}
-	public void update(Bar bar){
+	public void decrement(Bar bar){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);		
 			//String sql= "UPDATE barstock SET count = IF(count > 0, count - 1, 0) WHERE id = ?"; //stops at zero
-			String sql= "UPDATE barstock SET count = (count - 1) WHERE id = ?"; // better to allow negative accounting for emergency drinking sessions
-			
+			String sql= "UPDATE barstock SET count = (count - ?) WHERE id = ?"; // better to allow negative accounting for emergency drinking sessions
+
 			PreparedStatement ps = connection.prepareStatement(sql);
 
-		ps.setInt(1, bar.getid());
-		
+			ps.setInt(2, bar.getid());
+			ps.setInt(1, bar.getServeMultiplier());
 			ps.executeUpdate();
 
 
@@ -68,7 +69,7 @@ public class BarDAO {
 			String sql= "delete from barstock  where id=?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 
-		//	ps.setLong(1, bar.getId());
+			//	ps.setLong(1, bar.getId());
 
 			ps.executeUpdate();
 
@@ -82,8 +83,8 @@ public class BarDAO {
 			sqle.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public void check(Bar bar) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -92,52 +93,57 @@ public class BarDAO {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, bar.getid());
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-		String low=rs.getString("COUNT");
-		String product=rs.getString("item");
-		System.out.println("Stock level is low for " + product  + ".There are "+ low + " remaining.");
-		
+				String low=rs.getString("COUNT");
+				String product=rs.getString("item");
+				System.out.println("Stock level is low for " + product  + ".There are "+ low + " remaining.");
+
 			}
 			connection.close();
 		}catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException sqle){
-				sqle.printStackTrace();
-			}
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
 		}
-	
-	public void list(Bar bar){
+	}
+
+	public  List<Bar> getAll(){
+		List<Bar> bars=new ArrayList<Bar>();
 		try{
-			
+
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);
-			String sql="select id,item,count,alert from barstock";
+			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()){
-				
-				int itemid=rs.getInt("id");
-				
-				String itemitem=rs.getString("Item");
-				int itemcount=rs.getInt("count");
-				int itemalert=rs.getInt("alert");
-			
-				System.out.println("ID:" + itemid +" ITEM:" + itemitem + " COUNT:" + itemcount + " ALERT:"+ itemalert);
+				Bar bar = new Bar();
+				bar.setid(rs.getInt("id"));
+				bar.setitem(rs.getString("Item"));
+				bar.setcount(rs.getInt("count"));
+				bar.setalert(rs.getInt("alert"));
+				bar.setServeMultiplier(rs.getInt("ServeMultiplier"));
+				bar.setServing(rs.getString("Serving"));
+				bars.add(bar);	
+
 			}
 			connection.close();
 		}catch (ClassNotFoundException e){
 			e.printStackTrace();
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
-				
-			}
+
 		}
+
+		return bars;
 	}
-		
-	
+
+}
+
+
 
 
 

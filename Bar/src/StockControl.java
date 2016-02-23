@@ -32,7 +32,7 @@ public class StockControl {
 		
 		ri = Integer.parseInt(remitem);
 		bar.setid(ri);
-		barDAO.update(bar);
+		barDAO.decrement(bar);
 		barDAO.check(bar);
 		
 	
@@ -43,7 +43,7 @@ public class StockControl {
 	public static void createlist(){
 		BarDAO barDAO = new BarDAO();
 		Bar bar = new Bar();
-       barDAO.list(bar);
+    //   barDAO.list(bar);
 	}
 
 	
