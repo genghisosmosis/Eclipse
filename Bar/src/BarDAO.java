@@ -21,12 +21,12 @@ public class BarDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);		
-			String sql= "insert into barstock ( item, count,alert) values (?,?,?)";
+			String sql= "insert into barstock ( item, count,alert,beverageclass) values (?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, bar.getitem());
 			ps.setInt(2, bar.getcount());
 			ps.setInt(3,bar.getalert());
-
+			ps.setString(4, bar.getbeverageclass());
 			ps.executeUpdate();
 
 
@@ -115,7 +115,7 @@ public class BarDAO {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);
-			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass";
+			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass order by barstock.beverageclass";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -139,6 +139,30 @@ public class BarDAO {
 		}
 
 		return bars;
+	}
+	public List<Bar> getBeverageClassList(){
+		List<Bar> BevClassList = new ArrayList<Bar>();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);
+			String sql="SELECT distinct beverageclass FROM `servesize`";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				Bar bar = new Bar();
+				bar.setbeverageclass(rs.getString("beverageclass"));
+
+				BevClassList.add(bar);	
+			}
+			connection.close();
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return BevClassList;
 	}
 
 }

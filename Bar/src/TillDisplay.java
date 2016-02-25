@@ -37,7 +37,7 @@ public class TillDisplay extends JFrame {
 			mainPane.add(TB, BorderLayout.CENTER);
 		}
 
-
+        
 
 		
 	}

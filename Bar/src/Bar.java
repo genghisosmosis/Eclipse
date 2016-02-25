@@ -8,11 +8,14 @@ public class Bar {
 	public int alert;
 	public String Serving;
 	public int ServeMultiplier;
+	public String beverageclass;
 
 	public void setid(int id){
 		this.id=id;
 	}
-
+public void setbeverageclass(String beverageclass){
+	this.beverageclass=beverageclass;
+}
 
 	public void setitem(String item) {
 		this.item=item;
@@ -57,6 +60,10 @@ public int getServeMultiplier(){
 	return ServeMultiplier;
 	
 }
+public String getbeverageclass(){
+	return beverageclass;
+}
 
+	
 }
 
