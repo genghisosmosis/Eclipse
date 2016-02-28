@@ -18,6 +18,7 @@ public class TillButton extends JButton{
 			}
 		});
 	}
+	
 
 
 	public void onButtonClicked(ActionEvent ae) {

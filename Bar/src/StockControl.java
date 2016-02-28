@@ -4,9 +4,12 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class StockControl {
 	static int ri;
+
+
 
 
 	public static void addtoDB(){
@@ -54,6 +57,10 @@ public class StockControl {
 		}
 
 		barDAO.insert(bar);
+		
+		
+		
+	
 	}
 
 	public static void removefromDB(){

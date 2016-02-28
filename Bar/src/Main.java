@@ -8,8 +8,9 @@ public class Main {
 		
 
 		
-			JFrame win = new TillDisplay();
+			TillDisplay win = new TillDisplay();
 			win.setVisible(true);
+			
 		}
 		
 

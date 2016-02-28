@@ -115,7 +115,7 @@ public class BarDAO {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);
-			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass order by barstock.beverageclass";
+			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass order by barstock.item";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
