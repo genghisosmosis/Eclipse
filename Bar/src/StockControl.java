@@ -23,11 +23,7 @@ public class StockControl {
 
 		newitem = JOptionPane.showInputDialog("Please enter item name: ");
 		bar.setitem(newitem);
-		newcount = JOptionPane.showInputDialog("Please enter stock amount: ");
-
-		int nc =Integer.parseInt(newcount);
-
-		bar.setcount(nc);
+		
 		newalert = JOptionPane.showInputDialog("Please enter alert level: ");
 		int na = Integer.parseInt(newalert);
 		bar.setalert(na);
@@ -57,9 +53,6 @@ public class StockControl {
 		}
 
 		barDAO.insert(bar);
-
-
-
 
 	}
 

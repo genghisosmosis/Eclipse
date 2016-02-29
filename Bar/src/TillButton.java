@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 public class TillButton extends JButton{
 	private static boolean deliverymode;
+	private static boolean deletemode;
 	Bar bar;
 
 	public TillButton(Bar bar){
@@ -45,6 +46,14 @@ public class TillButton extends JButton{
 
 
 		}
+		
+		if (deletemode){
+			BarDAO barDAO=new BarDAO();
+			Bar bar = new Bar();
+			bar.setid(this.bar.getid());
+			barDAO.delete(bar);
+			this.setVisible(false);
+		}
 	}
 
 
@@ -52,5 +61,8 @@ public class TillButton extends JButton{
 	public static void setdeliverymode(boolean dm){
 		deliverymode=dm;
 
+	}
+	public static void setdeletemode(boolean delx){
+		deletemode=delx;
 	}
 }

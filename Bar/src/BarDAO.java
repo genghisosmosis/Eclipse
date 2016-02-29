@@ -21,12 +21,12 @@ public class BarDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);		
-			String sql= "insert into barstock ( item, count,alert,beverageclass) values (?,?,?,?)";
+			String sql= "insert into barstock ( item,alert,beverageclass) values (?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, bar.getitem());
-			ps.setInt(2, bar.getcount());
-			ps.setInt(3,bar.getalert());
-			ps.setString(4, bar.getbeverageclass());
+			
+			ps.setInt(2,bar.getalert());
+			ps.setString(3, bar.getbeverageclass());
 			ps.executeUpdate();
 
 
@@ -69,7 +69,7 @@ public class BarDAO {
 			String sql= "delete from barstock  where id=?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 
-			//	ps.setLong(1, bar.getId());
+			ps.setInt(1, bar.getid());
 
 			ps.executeUpdate();
 

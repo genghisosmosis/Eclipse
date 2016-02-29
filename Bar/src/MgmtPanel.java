@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MgmtPanel extends JPanel{
-	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery;
+	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete;
 	TillButton TillButton;
 	public MgmtPanel(){
 		super();
@@ -26,7 +26,7 @@ public class MgmtPanel extends JPanel{
 		Newsale.setEnabled(true);
 		Cancelsale.setEnabled(false);
 		Delivery.setEnabled(false);
-		
+		Delete.setEnabled(false);
 	}
 
 	private void generatecontent() {
@@ -62,6 +62,7 @@ public class MgmtPanel extends JPanel{
 				Newsale.setEnabled(false);
 				Addstockitem.setEnabled(true);
 				Delivery.setEnabled(true);
+				Delete.setEnabled(true);
 				TillButton.setdeliverymode(false);
 				UserControl.login();
 
@@ -82,6 +83,7 @@ public class MgmtPanel extends JPanel{
 			private void onLogoutClicked(ActionEvent ae) {
 				UserControl.logout();
 				TillDisplay.setinterface(false);
+				TillButton.setdeletemode(false);
 				initialise_state();
 
 			}
@@ -145,7 +147,8 @@ public class MgmtPanel extends JPanel{
 			}
 
 			private void onDeliveryClicked(ActionEvent ae) {
-
+				Newsale.setEnabled(false);
+				Delivery.setEnabled(false);
 				TillButton.setdeliverymode(true);
 				TillDisplay.ResetUI();
 				TillDisplay.setinterface(true);
@@ -155,8 +158,25 @@ public class MgmtPanel extends JPanel{
 			}
 		});
 		this.add(Delivery);
+	
+	Delete = new JButton("Delete");
+	Delete.addActionListener(new ActionListener(){
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			onDeleteClicked(ae);
+		}
+
+
+		private void onDeleteClicked(ActionEvent ae) {
+			TillButton.setdeletemode(true);
+			TillDisplay.setinterface(true);
+			
+
+		}
+	});
+	this.add(Delete);
+
 	}
-
-
+	
 }
 
