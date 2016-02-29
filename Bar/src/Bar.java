@@ -9,18 +9,25 @@ public class Bar {
 	public String Serving;
 	public int ServeMultiplier;
 	public String beverageclass;
-
+	public int deliveryqty;
+	public String DeliveryUnit;
 	public void setid(int id){
 		this.id=id;
 	}
-public void setbeverageclass(String beverageclass){
-	this.beverageclass=beverageclass;
-}
+	public void setbeverageclass(String beverageclass){
+		this.beverageclass=beverageclass;
+	}
 
 	public void setitem(String item) {
 		this.item=item;
 
 
+	}
+	public void setDeliveryUnit(String DeliveryUnit){
+		this.DeliveryUnit=DeliveryUnit;
+	}
+	public void setdeliveryqty(int deliveryqty){
+		this.deliveryqty=deliveryqty;
 	}
 	public void setcount(int count) {
 		this.count=count;
@@ -46,7 +53,10 @@ public void setbeverageclass(String beverageclass){
 	}
 	public String getServing(){
 		return Serving;
-		
+
+	}
+	public String getDeliveryUnit(){
+		return DeliveryUnit;
 	}
 	public int getcount() {
 
@@ -56,14 +66,19 @@ public void setbeverageclass(String beverageclass){
 
 		return alert;
 	}
-public int getServeMultiplier(){
-	return ServeMultiplier;
-	
-}
-public String getbeverageclass(){
-	return beverageclass;
-}
+	public int getServeMultiplier(){
+		return ServeMultiplier;
 
-	
+	}
+	public String getbeverageclass(){
+		return beverageclass;
+	}
+	public int getdeliveryqty() {
+
+
+		return deliveryqty;
+	}
+
+
 }
 

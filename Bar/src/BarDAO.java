@@ -115,7 +115,7 @@ public class BarDAO {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);
-			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier FROM barstock,servesize where barstock.beverageclass = servesize.BeverageClass order by barstock.item";
+			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier,delivery.DeliveryUnit FROM barstock,servesize,delivery where barstock.beverageclass = servesize.BeverageClass and barstock.beverageclass = delivery.BeverageClass order by barstock.item";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -127,6 +127,7 @@ public class BarDAO {
 				bar.setalert(rs.getInt("alert"));
 				bar.setServeMultiplier(rs.getInt("ServeMultiplier"));
 				bar.setServing(rs.getString("Serving"));
+				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));
 				bars.add(bar);	
 
 			}
@@ -163,6 +164,28 @@ public class BarDAO {
 		}
 
 		return BevClassList;
+	}
+	public void delivery(Bar bar) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);		
+			String sql= "UPDATE barstock,delivery set barstock.COUNT=barstock.COUNT +(? * delivery.DUnitQty) WHERE barstock.beverageclass = delivery.BeverageClass and barstock.id = ?";
+
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			ps.setInt(1, bar.getdeliveryqty());
+			ps.setInt(2, bar.getid());
+			ps.executeUpdate();
+
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+		}
 	}
 
 }

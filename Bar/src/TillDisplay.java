@@ -19,7 +19,7 @@ public class TillDisplay extends JFrame {
 	JFrame TillDisplay =new JFrame();
 	TillButton tillbutton ;
 	static Productpanel PP;
-private static  boolean displaymode;
+	private static  boolean displaymode;
 
 
 	public TillDisplay(){
@@ -63,21 +63,21 @@ private static  boolean displaymode;
 	}
 
 	public static void ResetUI(){
-	
+
 		PP.redo();
-		
-		
+
+
 
 	}
 	public static void setinterface(boolean newdisplaymode){
 		displaymode = newdisplaymode;
-			PP.setVisible(displaymode);
-		
+		PP.setVisible(displaymode);
+
 	}
 
 
-	
 
 
-	
+
+
 }

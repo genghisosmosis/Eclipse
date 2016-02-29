@@ -46,7 +46,7 @@ public class StockControl {
 			panel.add(RB);
 
 		}
-		
+
 		JOptionPane.showMessageDialog(null, panel);
 		for (int i=0;i<radioButtons.size();i++){
 			BevclassDialog button = radioButtons.get(i);
@@ -57,10 +57,10 @@ public class StockControl {
 		}
 
 		barDAO.insert(bar);
-		
-		
-		
-	
+
+
+
+
 	}
 
 	public static void removefromDB(){
