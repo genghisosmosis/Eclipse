@@ -18,39 +18,32 @@ public class Drinkorder {
 
 	public static void additem(Bar bar){
 		if (TillButton.getreversetransaction()){
-			totalcost = totalcost - (bar.getprice()*bar.getServeMultiplier());
-
 			Drinksorder.remove(bar);
 		}
-
 		else{
-			Drinksorder.add(bar);
-			totalcost = totalcost + (bar.getprice()*bar.getServeMultiplier());}
-
-		float displayprice = (float) totalcost/100;
-		BigDecimal currency;
-		currency=round(displayprice,2);
-
-
-
-		TillDisplay.updateprice("€"+currency);
-		TillDisplay.cleardisplay();
+			Drinksorder.add(bar);}
 		printlist();
-
-
 	}
 
 	public static void printlist(){
+		int totalcost = 0;
+		TillDisplay.cleardisplay();
 		for (Bar bar:Drinksorder){
+			
 			TillDisplay.pushmessage(bar.getitem()+" "+bar.getServing()+" "+bar.getServeMultiplier()+"\n");
-
-
+			totalcost = totalcost + (bar.getprice()*bar.getServeMultiplier());
+			float displayprice = (float) totalcost/100;
+			BigDecimal currency;
+			currency=round(displayprice,2);
+			TillDisplay.updateprice("€"+currency);
+			
+			
 		}
 
 	}
 	public static BigDecimal round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);       
-        return bd;
-    }
+		BigDecimal bd = new BigDecimal(Float.toString(d));
+		bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);       
+		return bd;
+	}
 }
