@@ -2,7 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -12,7 +14,10 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultCaret;
 
 public class TillDisplay extends JFrame {
 
@@ -20,8 +25,9 @@ public class TillDisplay extends JFrame {
 	TillButton tillbutton ;
 	static Productpanel PP;
 	private static  boolean displaymode;
-
-
+	private static String displaymessage;
+	static JTextArea TillScroll;
+	static JTextArea Price;
 	public TillDisplay(){
 		super();
 		CreateUI();
@@ -36,10 +42,20 @@ public class TillDisplay extends JFrame {
 		JPanel master_top = new JPanel(new GridLayout(1,2));  // Grid layout - rows,cols
 		JPanel master_bottom = new JPanel(new GridLayout(1,1));
 		JPanel till_window = new JPanel();
-		till_window.setBackground(Color.BLACK);
-		JPanel mgmt_window  = new JPanel();
+		Font font = new Font("TimesRoman", Font.BOLD, 96);
+		
+		Price = new JTextArea();
+		Price.setBackground(Color.BLACK);
+		Price.setForeground(Color.green);
+		Price.setFont(font);
+		TillScroll = new JTextArea();
+		TillScroll.setSize(till_window.getWidth(), till_window.getHeight());
+		till_window.setBackground(Color.WHITE);
+		JPanel mgmt_window  = new JPanel(new GridLayout(2,1));
 		MgmtPanel MP = new MgmtPanel();
 		mgmt_window.add(MP);
+		mgmt_window.add(Price);
+		till_window.add(TillScroll);
 		master_top.add(till_window);
 		master_top.add(mgmt_window);
 		PP = new Productpanel();
@@ -49,11 +65,11 @@ public class TillDisplay extends JFrame {
 		windowinterface.add(master_top);
 		windowinterface.add(master_bottom);
 		PP.setVisible(displaymode);
-
+		TillScroll.append("YO MAMA\n");
 	}
 
 	private void CreateUI() {
-		this.setSize(800,600);
+		this.setSize(1000,800);
 		this.setResizable(true);
 		this.setTitle("BarMan V1.0");
 		this.setLocationRelativeTo(null);
@@ -75,9 +91,21 @@ public class TillDisplay extends JFrame {
 
 	}
 
+public static void pushmessage(String message){
+	displaymessage = message;
+	TillScroll.append(displaymessage);
+}
 
 
 
+public static void cleardisplay() {
+	TillScroll.setText(null);
+	
+}
+
+public static void updateprice(String price){
+	Price.setText(price);
+}
 
 
 }

@@ -11,6 +11,8 @@ public class Bar {
 	public String beverageclass;
 	public int deliveryqty;
 	public String DeliveryUnit;
+	public int price;
+	public String displayprice;
 	public void setid(int id){
 		this.id=id;
 	}
@@ -20,9 +22,14 @@ public class Bar {
 
 	public void setitem(String item) {
 		this.item=item;
-
-
 	}
+	public void setprice(int price){
+		this.price=price;
+	}
+	public void setdisplayprice(String displayprice){
+		this.displayprice=displayprice;
+	}
+
 	public void setDeliveryUnit(String DeliveryUnit){
 		this.DeliveryUnit=DeliveryUnit;
 	}
@@ -55,6 +62,9 @@ public class Bar {
 		return Serving;
 
 	}
+	public String getdisplayprice(){
+		return displayprice;
+	}
 	public String getDeliveryUnit(){
 		return DeliveryUnit;
 	}
@@ -78,7 +88,9 @@ public class Bar {
 
 		return deliveryqty;
 	}
-
+	public int getprice(){
+		return price;
+	}
 
 }
 

@@ -102,7 +102,6 @@ public class BarDAO {
 			}
 			connection.close();
 		}catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
@@ -115,7 +114,7 @@ public class BarDAO {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);
-			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,servesize.serving,servesize.servemultiplier,delivery.DeliveryUnit FROM barstock,servesize,delivery where barstock.beverageclass = servesize.BeverageClass and barstock.beverageclass = delivery.BeverageClass order by barstock.item";
+			String sql="SELECT barstock.id,barstock.item,barstock.count,barstock.alert,barstock.unitprice,servesize.serving,servesize.servemultiplier,delivery.DeliveryUnit FROM barstock,servesize,delivery where barstock.beverageclass = servesize.BeverageClass and barstock.beverageclass = delivery.BeverageClass order by barstock.item";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -128,6 +127,10 @@ public class BarDAO {
 				bar.setServeMultiplier(rs.getInt("ServeMultiplier"));
 				bar.setServing(rs.getString("Serving"));
 				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));
+				int calculatedprice = rs.getInt("unitprice")*rs.getInt("ServeMultiplier");
+				float decimatedprice = (float) calculatedprice/100;
+				bar.setdisplayprice("€"+ decimatedprice);
+				bar.setprice(rs.getInt("unitprice"));
 				bars.add(bar);	
 
 			}
@@ -181,14 +184,36 @@ public class BarDAO {
 			connection.close();
 
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
 		}
 	}
+	public void increment(Bar bar) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);		
+			String sql= "UPDATE barstock SET COUNT = (COUNT + ?) WHERE id = ?"; 
 
-}
+			PreparedStatement ps = connection.prepareStatement(sql);
+			
+			ps.setInt(2, bar.getid());
+			ps.setInt(1, bar.getServeMultiplier());
+			ps.executeUpdate();
+
+
+			connection.close();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+		}
+	}
+		
+	}
+
+
 
 
 

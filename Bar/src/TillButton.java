@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 public class TillButton extends JButton{
 	private static boolean deliverymode;
 	private static boolean deletemode;
+	private static boolean reversetransaction;
 	Bar bar;
 
 	public TillButton(Bar bar){
@@ -31,6 +32,8 @@ public class TillButton extends JButton{
 			BarDAO barDAO = new BarDAO();
 
 			barDAO.decrement(bar);
+			TillDisplay.pushmessage((this.bar.getServing()) + " " +(this.bar.getitem()) +" " +(this.bar.getdisplayprice())+ "0\n");
+			Drinkorder.additem(bar);
 			barDAO.check(bar);
 		}else{
 			String newcount;
@@ -54,6 +57,13 @@ public class TillButton extends JButton{
 			barDAO.delete(bar);
 			this.setVisible(false);
 		}
+		if (reversetransaction){
+			BarDAO barDAO=new BarDAO();
+			barDAO.increment(bar);
+			setreversetransaction(false);
+			
+			
+		}
 	}
 
 
@@ -64,5 +74,17 @@ public class TillButton extends JButton{
 	}
 	public static void setdeletemode(boolean delx){
 		deletemode=delx;
+	}
+
+
+
+	public static void setreversetransaction(boolean reverse) {
+		reversetransaction=reverse;
+		
+		
+	}
+	public static boolean getreversetransaction(){
+		return reversetransaction;
+		
 	}
 }

@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MgmtPanel extends JPanel{
-	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete;
-	TillButton TillButton;
+	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete,CancelItem;
+	//TillButton TillButton;
 	public MgmtPanel(){
 		super();
 		generatecontent();
@@ -27,6 +27,8 @@ public class MgmtPanel extends JPanel{
 		Cancelsale.setEnabled(false);
 		Delivery.setEnabled(false);
 		Delete.setEnabled(false);
+		CancelItem.setEnabled(false);
+		TillButton.setdeliverymode(false);
 	}
 
 	private void generatecontent() {
@@ -63,7 +65,7 @@ public class MgmtPanel extends JPanel{
 				Addstockitem.setEnabled(true);
 				Delivery.setEnabled(true);
 				Delete.setEnabled(true);
-				TillButton.setdeliverymode(false);
+				
 				UserControl.login();
 
 
@@ -71,6 +73,16 @@ public class MgmtPanel extends JPanel{
 			}
 		});
 		this.add(Login);
+		
+		CancelItem = new JButton("Cancel item");
+		CancelItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				TillButton.setreversetransaction(true);
+				TillDisplay.pushmessage("The next item is cancelled\n");
+			}
+		});
+		this.add(CancelItem);
 
 		Logout = new JButton("Manager log out");
 		Logout.addActionListener(new ActionListener(){
@@ -103,7 +115,9 @@ public class MgmtPanel extends JPanel{
 				TillDisplay.setinterface(true);
 				Newsale.setEnabled(false);
 				Cancelsale.setEnabled(true);
-
+				CancelItem.setEnabled(true);
+				TillDisplay.cleardisplay();
+				TillDisplay.pushmessage("New drink order\n");
 
 			}
 
@@ -149,6 +163,7 @@ public class MgmtPanel extends JPanel{
 			private void onDeliveryClicked(ActionEvent ae) {
 				Newsale.setEnabled(false);
 				Delivery.setEnabled(false);
+				Delete.setEnabled(false);
 				TillButton.setdeliverymode(true);
 				TillDisplay.ResetUI();
 				TillDisplay.setinterface(true);
@@ -168,6 +183,8 @@ public class MgmtPanel extends JPanel{
 
 
 		private void onDeleteClicked(ActionEvent ae) {
+			Addstockitem.setEnabled(false);
+			Delivery.setEnabled(false);
 			TillButton.setdeletemode(true);
 			TillDisplay.setinterface(true);
 			
