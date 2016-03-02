@@ -51,7 +51,7 @@ private static BigDecimal currency;
 
 	public static void cancelorder() {
 		Drinksorder.clear();
-	
+		
 		}
 
 

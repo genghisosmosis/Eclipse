@@ -111,6 +111,7 @@ public class MgmtPanel extends JPanel{
 				TillDisplay.cleardisplay();
 				TillDisplay.setinterface(false);
 				TillButton.setdeletemode(false);
+				Drinkorder.cancelorder();
 				initialise_state();
 
 			}
@@ -201,7 +202,7 @@ public class MgmtPanel extends JPanel{
 			Delivery.setEnabled(false);
 			TillButton.setdeletemode(true);
 			TillDisplay.setinterface(true);
-			Drinkorder.cancelorder();
+			
 			
 
 		}
@@ -221,7 +222,7 @@ public class MgmtPanel extends JPanel{
 		Confirm.setEnabled(false);
 		Check.setEnabled(true);
 		TillButton.setdeliverymode(false);
-		
+		TillDisplay.setinterface(false);
 	}
 }
 

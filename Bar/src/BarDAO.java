@@ -128,9 +128,9 @@ public class BarDAO {
 				bar.setServeMultiplier(rs.getInt("ServeMultiplier"));
 				bar.setServing(rs.getString("Serving"));
 				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));
-			//	int calculatedprice = rs.getInt("unitprice")*rs.getInt("ServeMultiplier");
-			//	float decimatedprice = (float) calculatedprice/100;
-			//	bar.setdisplayprice("€"+ decimatedprice);
+				int calculatedprice = rs.getInt("unitprice")*rs.getInt("ServeMultiplier");
+				float decimatedprice = (float) calculatedprice/100;
+				bar.setdisplayprice("€"+ decimatedprice);
 				bar.setprice(rs.getInt("unitprice"));
 				bars.add(bar);	
 
