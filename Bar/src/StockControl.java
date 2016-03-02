@@ -76,10 +76,14 @@ public class StockControl {
 
 	}
 
-	public static void createlist(){
+	public static void createshortlist(){
 		BarDAO barDAO = new BarDAO();
-		Bar bar = new Bar();
-		//   barDAO.list(bar);
+
+		List<Bar> shortages= barDAO.getshort();
+		for (Bar bar:shortages){
+			
+			TillDisplay.pushmessage("There are "+bar.getServing() + " " + bar.getDeliveryUnit() + "s of " + bar.getitem() + " remaining.\n");
+		}
 	}
 
 

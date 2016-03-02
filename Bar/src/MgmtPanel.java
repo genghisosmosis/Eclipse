@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MgmtPanel extends JPanel{
-	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete,CancelItem,Confirm;
+	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete,CancelItem,Confirm,Check;
 	//TillButton TillButton;
 	public MgmtPanel(){
 		super();
@@ -29,6 +29,7 @@ public class MgmtPanel extends JPanel{
 		Delete.setEnabled(false);
 		CancelItem.setEnabled(false);
 		Confirm.setEnabled(false);
+		Check.setEnabled(false);
 		TillButton.setdeliverymode(false);
 	}
 
@@ -67,7 +68,14 @@ public class MgmtPanel extends JPanel{
 			}
 		});
 		this.add(Login);
-		
+		Check = new JButton("Low stock check");
+		Check.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				StockControl.createshortlist();
+			}
+		});
+		this.add(Check);
 		CancelItem = new JButton("Cancel item");
 		CancelItem.addActionListener(new ActionListener(){
 			@Override
@@ -193,6 +201,7 @@ public class MgmtPanel extends JPanel{
 			Delivery.setEnabled(false);
 			TillButton.setdeletemode(true);
 			TillDisplay.setinterface(true);
+			Drinkorder.cancelorder();
 			
 
 		}
@@ -210,7 +219,9 @@ public class MgmtPanel extends JPanel{
 		Delete.setEnabled(true);
 		CancelItem.setEnabled(false);
 		Confirm.setEnabled(false);
+		Check.setEnabled(true);
 		TillButton.setdeliverymode(false);
+		
 	}
 }
 

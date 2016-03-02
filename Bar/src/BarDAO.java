@@ -128,9 +128,9 @@ public class BarDAO {
 				bar.setServeMultiplier(rs.getInt("ServeMultiplier"));
 				bar.setServing(rs.getString("Serving"));
 				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));
-				int calculatedprice = rs.getInt("unitprice")*rs.getInt("ServeMultiplier");
-				float decimatedprice = (float) calculatedprice/100;
-				bar.setdisplayprice("€"+ decimatedprice);
+			//	int calculatedprice = rs.getInt("unitprice")*rs.getInt("ServeMultiplier");
+			//	float decimatedprice = (float) calculatedprice/100;
+			//	bar.setdisplayprice("€"+ decimatedprice);
 				bar.setprice(rs.getInt("unitprice"));
 				bars.add(bar);	
 
@@ -145,6 +145,37 @@ public class BarDAO {
 
 		return bars;
 	}
+	public  List<Bar> getshort(){
+		List<Bar> lowstocks=new ArrayList<Bar>();
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);
+			String sql="SELECT barstock.id,barstock.item,round((barstock.count/delivery.DUnitQty),2)as alert,delivery.DeliveryUnit from barstock,delivery where barstock.beverageclass = delivery.BeverageClass and barstock.count <= barstock.alert";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				Bar bar = new Bar();
+				bar.setid(rs.getInt("id"));
+				bar.setitem(rs.getString("Item"));
+				//bar.setalert(rs.getInt("alert"));
+				bar.setServing(rs.getString("alert"));
+				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));	
+				lowstocks.add(bar);	
+
+			}
+			connection.close();
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+
+		}
+
+		return lowstocks;
+	}
+	
 	public List<Bar> getBeverageClassList(){
 		List<Bar> BevClassList = new ArrayList<Bar>();
 		try{
