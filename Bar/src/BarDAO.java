@@ -145,6 +145,65 @@ public class BarDAO {
 
 		return bars;
 	}
+	public String  getminimum(String serving){
+		
+		String serving1 = new String();
+	
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);
+			String sql="SELECT Serving from servesize where BeverageClass=? and ServeMultiplier =1 ";
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			
+			ps.setString(1, serving);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				serving1 = rs.getString("Serving");
+			}
+			connection.close();
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+
+		}
+		
+		return serving1;
+		
+	}
+	public String  getdelunit(String delunit){
+		
+		
+
+		String delunit1 = new String();
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);
+			String sql="SELECT DeliveryUnit from delivery where beverageclass=?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			
+			ps.setString(1, delunit);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				delunit1 = rs.getString("DeliveryUnit");
+			}
+			connection.close();
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+
+		}
+		
+		return delunit1;
+		
+	}
 	public  List<Bar> getshort(){
 		List<Bar> lowstocks=new ArrayList<Bar>();
 		try{
@@ -241,6 +300,32 @@ public class BarDAO {
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
 		}
+	}
+	public int getdelqty(String delquant) {
+		int delquant1 = 0 ;
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(connectionUrl);
+			String sql="SELECT DUnitQty from delivery where beverageclass=?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			
+			ps.setString(1, delquant);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()){
+				delquant1 = rs.getInt("DUnitQty");
+			}
+			connection.close();
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		} catch (SQLException sqle){
+			sqle.printStackTrace();
+
+		}
+		
+		return delquant1;
 	}
 		
 	}
