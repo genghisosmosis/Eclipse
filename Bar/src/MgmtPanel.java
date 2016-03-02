@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MgmtPanel extends JPanel{
-	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete,CancelItem;
+	JButton Addstockitem,Login,Logout,Newsale,Cancelsale,Delivery,Delete,CancelItem,Confirm;
 	//TillButton TillButton;
 	public MgmtPanel(){
 		super();
@@ -28,6 +28,7 @@ public class MgmtPanel extends JPanel{
 		Delivery.setEnabled(false);
 		Delete.setEnabled(false);
 		CancelItem.setEnabled(false);
+		Confirm.setEnabled(false);
 		TillButton.setdeliverymode(false);
 	}
 
@@ -43,6 +44,7 @@ public class MgmtPanel extends JPanel{
 
 
 			private void onAddstockitemClicked(ActionEvent ae) {
+				TillDisplay.pushmessage("************ENTRY MODE**************\n");
 				StockControl.addtoDB();
 
 
@@ -59,17 +61,9 @@ public class MgmtPanel extends JPanel{
 
 
 			private void onLoginClicked(ActionEvent ae) {
-				Logout.setEnabled(true);
-				Login.setEnabled(false);
-				Newsale.setEnabled(false);
-				Addstockitem.setEnabled(true);
-				Delivery.setEnabled(true);
-				Delete.setEnabled(true);
-				
-				UserControl.login();
-
-
-
+				setMgmtmode();
+				TillDisplay.cleardisplay();
+				TillDisplay.pushmessage("Management mode\n");
 			}
 		});
 		this.add(Login);
@@ -83,7 +77,19 @@ public class MgmtPanel extends JPanel{
 			}
 		});
 		this.add(CancelItem);
-
+		Confirm  = new JButton("Confirm Sale");
+		Confirm.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae){
+				CancelItem.setEnabled(false);
+				Cancelsale.setEnabled(false);
+				Confirm.setEnabled(false);
+				Newsale.setEnabled(true);
+				
+				Drinkorder.processorder();
+			}
+		});
+		this.add(Confirm);
 		Logout = new JButton("Manager log out");
 		Logout.addActionListener(new ActionListener(){
 			@Override
@@ -94,6 +100,7 @@ public class MgmtPanel extends JPanel{
 
 			private void onLogoutClicked(ActionEvent ae) {
 				UserControl.logout();
+				TillDisplay.cleardisplay();
 				TillDisplay.setinterface(false);
 				TillButton.setdeletemode(false);
 				initialise_state();
@@ -116,20 +123,15 @@ public class MgmtPanel extends JPanel{
 				Newsale.setEnabled(false);
 				Cancelsale.setEnabled(true);
 				CancelItem.setEnabled(true);
+				Confirm.setEnabled(true);
 				TillDisplay.cleardisplay();
 				TillDisplay.pushmessage("New drink order\n");
-
-			}
-
-
-			private void onAddstockitemClicked(ActionEvent ae) {
-				UserControl.logout();
-
-
+				TillDisplay.clearprice(null);
 			}
 		});
+		
 		this.add(Newsale);
-
+		
 		Cancelsale = new JButton("Cancel Sale");
 		Cancelsale.addActionListener(new ActionListener(){
 			@Override
@@ -140,16 +142,15 @@ public class MgmtPanel extends JPanel{
 
 			private void onCancelsaleClicked(ActionEvent ae) {
 				TillDisplay.setinterface(false);
+				TillDisplay.clearprice(null);
+				TillDisplay.cleardisplay();
+				Drinkorder.cancelorder();
 				Newsale.setEnabled(true);
 				Cancelsale.setEnabled(false);
+				CancelItem.setEnabled(false);
+				Confirm.setEnabled(false);
 			}
 
-
-			private void onAddstockitemClicked(ActionEvent ae) {
-				UserControl.logout();
-
-
-			}
 		});
 		this.add(Cancelsale);
 		Delivery = new JButton("Delivery");
@@ -161,9 +162,12 @@ public class MgmtPanel extends JPanel{
 			}
 
 			private void onDeliveryClicked(ActionEvent ae) {
+				TillDisplay.pushmessage("*********DELIVERY MODE*************\n");
+				TillDisplay.pushmessage("Select button for delivered product\n");
 				Newsale.setEnabled(false);
 				Delivery.setEnabled(false);
 				Delete.setEnabled(false);
+				Addstockitem.setEnabled(false);
 				TillButton.setdeliverymode(true);
 				TillDisplay.ResetUI();
 				TillDisplay.setinterface(true);
@@ -183,6 +187,8 @@ public class MgmtPanel extends JPanel{
 
 
 		private void onDeleteClicked(ActionEvent ae) {
+			TillDisplay.pushmessage("**************Delete mode************\n");
+			TillDisplay.pushmessage("Select button of product for deletion\n");
 			Addstockitem.setEnabled(false);
 			Delivery.setEnabled(false);
 			TillButton.setdeletemode(true);
@@ -194,6 +200,17 @@ public class MgmtPanel extends JPanel{
 	this.add(Delete);
 
 	}
-	
+	private void setMgmtmode(){
+		Addstockitem.setEnabled(true);
+		Login.setEnabled(false);
+		Logout.setEnabled(true);
+		Newsale.setEnabled(false);
+		Cancelsale.setEnabled(false);
+		Delivery.setEnabled(true);
+		Delete.setEnabled(true);
+		CancelItem.setEnabled(false);
+		Confirm.setEnabled(false);
+		TillButton.setdeliverymode(false);
+	}
 }
 

@@ -4,7 +4,6 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class StockControl {
 	static int ri;
@@ -16,13 +15,18 @@ public class StockControl {
 		BarDAO barDAO = new BarDAO();
 		Bar bar = new Bar();
 		String newitem;
-		String newcount;
+		String itemprice;
 		String newalert;
 		String newbeverageclass;
 
 
 		newitem = JOptionPane.showInputDialog("Please enter item name: ");
 		bar.setitem(newitem);
+		itemprice = JOptionPane.showInputDialog("Please enter cost for smallest serve size in cents: ");
+
+		int np =Integer.parseInt(itemprice);
+
+		bar.setprice(np);
 		
 		newalert = JOptionPane.showInputDialog("Please enter alert level: ");
 		int na = Integer.parseInt(newalert);

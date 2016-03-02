@@ -29,12 +29,12 @@ public class TillButton extends JButton{
 
 	public void onButtonClicked(ActionEvent ae) {
 		if (!deliverymode){
-			BarDAO barDAO = new BarDAO();
+		//	BarDAO barDAO = new BarDAO();
 
-			barDAO.decrement(bar);
+		//	barDAO.decrement(bar);
 			TillDisplay.pushmessage((this.bar.getServing()) + " " +(this.bar.getitem()) +" " +(this.bar.getdisplayprice())+ "0\n");
 			Drinkorder.additem(bar);
-			barDAO.check(bar);
+		//	barDAO.check(bar);
 		}else{
 			String newcount;
 			BarDAO barDAO=new BarDAO();

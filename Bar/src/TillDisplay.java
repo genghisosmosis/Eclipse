@@ -49,14 +49,17 @@ public class TillDisplay extends JFrame {
 		Price.setForeground(Color.green);
 		Price.setFont(font);
 		TillScroll = new JTextArea();
+		TillScroll.setBackground(Color.BLACK);
+		TillScroll.setForeground(Color.GREEN);
 		TillScroll.setSize(till_window.getWidth(), till_window.getHeight());
-		till_window.setBackground(Color.WHITE);
+		till_window.setBackground(Color.BLACK);
 		JPanel mgmt_window  = new JPanel(new GridLayout(2,1));
 		MgmtPanel MP = new MgmtPanel();
 		mgmt_window.add(MP);
 		mgmt_window.add(Price);
 		till_window.add(TillScroll);
 		master_top.add(till_window);
+		master_top.setBackground(Color.BLACK);
 		master_top.add(mgmt_window);
 		PP = new Productpanel();
 		master_bottom.add(PP,BorderLayout.CENTER);
@@ -106,6 +109,8 @@ public static void cleardisplay() {
 public static void updateprice(String price){
 	Price.setText(price);
 }
-
+public static void clearprice(String price){
+	Price.setText("€0.00");
+}
 
 }

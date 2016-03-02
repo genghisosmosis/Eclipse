@@ -21,12 +21,13 @@ public class BarDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);		
-			String sql= "insert into barstock ( item,alert,beverageclass) values (?,?,?)";
+			String sql= "insert into barstock ( item,alert,beverageclass,unitprice) values (?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, bar.getitem());
 			
 			ps.setInt(2,bar.getalert());
 			ps.setString(3, bar.getbeverageclass());
+			ps.setInt(4, bar.getprice());
 			ps.executeUpdate();
 
 

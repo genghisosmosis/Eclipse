@@ -6,16 +6,16 @@ public class AddStock {
 		BarDAO barDAO = new BarDAO();
 		Bar bar = new Bar();
 		String newitem;
-		String newcount;
+		String itemprice;
 		String newalert;
 
 		newitem = JOptionPane.showInputDialog("Please enter item name: ");
 		bar.setitem(newitem);
-		newcount = JOptionPane.showInputDialog("Please enter stock amount: ");
+		itemprice = JOptionPane.showInputDialog("Please enter cost for smallest serve size in cents: ");
 
-		int nc =Integer.parseInt(newcount);
+		int np =Integer.parseInt(itemprice);
 
-		bar.setcount(nc);
+		bar.setprice(np);
 		newalert = JOptionPane.showInputDialog("Please enter alert level: ");
 		int na = Integer.parseInt(newalert);
 		bar.setalert(na);
