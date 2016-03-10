@@ -72,6 +72,7 @@ public class MgmtPanel extends JPanel{
 		Check.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				TillDisplay.pushmessage("************LOW STOCK CHECK**************\n");
 				StockControl.createshortlist();
 			}
 		});

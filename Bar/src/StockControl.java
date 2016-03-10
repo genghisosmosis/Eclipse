@@ -15,7 +15,7 @@ public class StockControl {
 		BarDAO barDAO = new BarDAO();
 		Bar bar = new Bar();
 		String newitem;
-		String itemprice;
+		String itemprice = null;
 		String newalert;
 		String newbeverageclass;
 
@@ -46,23 +46,46 @@ public class StockControl {
 		String serving = getserv.getminimum(bar.getbeverageclass());
 		BarDAO getship = new BarDAO();
 		String delunit = getship.getdelunit(bar.getbeverageclass());
-		itemprice = JOptionPane.showInputDialog("Please enter cost for a "+serving +" in cents: ");
 
-		int np =Integer.parseInt(itemprice);
+
+		boolean valid = false;
+		int np=0;
+		itemprice = JOptionPane.showInputDialog("Please enter cost for a "+serving +" in cents: ");
+		while (!valid){
+
+			
+
+			try{
+				np =Integer.parseInt(itemprice);
+				valid = true ;
+			}catch (NumberFormatException e){
+				itemprice = JOptionPane.showInputDialog("Please enter cost for a "+serving +" in cents:\n ENTER A NUMBER ONLY ");
+			};
+		}
 
 		bar.setprice(np);
-		
-		newalert = JOptionPane.showInputDialog("What is the minimum number of " + delunit +"s of "+newitem+ " before alerting you?");
+		valid = false;
+		int na=0;
 		BarDAO getdelquant  = new BarDAO();
 		int delquant = getdelquant.getdelqty(bar.getbeverageclass());
 		
-		int na = Integer.parseInt(newalert);
+		newalert = JOptionPane.showInputDialog("What is the minimum number of " + delunit +"s of "+newitem+ " before alerting you?");
+		while (!valid){
+			try{
+				na = Integer.parseInt(newalert);
+				valid=true;
+			}catch (NumberFormatException e){
+				newalert = JOptionPane.showInputDialog("What is the minimum number of " + delunit +"s of "+newitem+ " before alerting you?\n ENTER A NUMBER ONLY");
+			}
+		}
+
+		
 		int alertlevel = na*delquant;
 		bar.setalert(alertlevel);
 
-		
 
-		
+
+
 
 		barDAO.insert(bar);
 
@@ -89,7 +112,7 @@ public class StockControl {
 
 		List<Bar> shortages= barDAO.getshort();
 		for (Bar bar:shortages){
-			
+
 			TillDisplay.pushmessage("There are "+bar.getServing() + " " + bar.getDeliveryUnit() + "s of " + bar.getitem() + " remaining.\n");
 		}
 	}

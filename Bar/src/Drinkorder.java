@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 
 public class Drinkorder {
 	private static int totalcost;
-private static int ordercost;
-private static BigDecimal currency;
+	private static int ordercost;
+	private static BigDecimal currency;
 	static List<Bar> Drinksorder = new ArrayList<Bar>();
 
 
@@ -37,8 +37,8 @@ private static BigDecimal currency;
 			BigDecimal currency;
 			currency=round(displayprice,2);
 			TillDisplay.updateprice("€"+currency);
-			
-			
+
+
 		}
 
 	}
@@ -51,32 +51,42 @@ private static BigDecimal currency;
 
 	public static void cancelorder() {
 		Drinksorder.clear();
-		
-		}
+
+	}
 
 
 	public static  void processorder() {
 		ordercost = 0;
+		boolean valid = false;
+		float tenderedamt = 0;
 		TillDisplay.pushmessage("\nTOTAL    :"+TillDisplay.Price.getText()+"\n");
 		String tendered;
 		tendered = JOptionPane.showInputDialog("Please enter amount tendered ");
+
+		while (!valid){
+
+
+			try{
+				tenderedamt = Float.parseFloat(tendered);
+				valid = true;
+			}catch (NumberFormatException e) {tendered = JOptionPane.showInputDialog("Please enter amount tendered \n NUMBERS ONLY PLEASE");
+
+			};
+		}
 		TillDisplay.pushmessage("\nTendered  €"+tendered+"\n");
-		float tenderedamt = Float.parseFloat(tendered);
-		
 		for(Bar bar:Drinksorder){
-		BarDAO barDAO = new BarDAO();
-		ordercost = ordercost + (bar.getprice()*bar.getServeMultiplier());
-		float totalprice = (float) ordercost/100;
-		float change = (totalprice - tenderedamt);
-		
-		currency=round(change,2);
-		barDAO.decrement(bar);
-		
+			BarDAO barDAO = new BarDAO();
+			ordercost = ordercost + (bar.getprice()*bar.getServeMultiplier());
+			float totalprice = (float) ordercost/100;
+			float change = (totalprice - tenderedamt);
+			currency=round(change,2);
+			barDAO.decrement(bar);
+
 		}
 		TillDisplay.pushmessage("\nChange   €"+currency+"\n");
 		TillDisplay.updateprice("€"+currency);
 		cancelorder();
 	}
-		
-	}
+
+}
 
