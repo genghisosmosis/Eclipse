@@ -44,7 +44,6 @@ public class BarDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(connectionUrl);		
-			//String sql= "UPDATE barstock SET count = IF(count > 0, count - 1, 0) WHERE id = ?"; //stops at zero
 			String sql= "UPDATE barstock SET count = (count - ?) WHERE id = ?"; // better to allow negative accounting for emergency drinking sessions
 
 			PreparedStatement ps = connection.prepareStatement(sql);
@@ -57,7 +56,6 @@ public class BarDAO {
 			connection.close();
 
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
@@ -78,7 +76,6 @@ public class BarDAO {
 			connection.close();
 
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException sqle){
 			sqle.printStackTrace();
@@ -218,7 +215,6 @@ public class BarDAO {
 				Bar bar = new Bar();
 				bar.setid(rs.getInt("id"));
 				bar.setitem(rs.getString("Item"));
-				//bar.setalert(rs.getInt("alert"));
 				bar.setServing(rs.getString("alert"));
 				bar.setDeliveryUnit(rs.getString("DeliveryUnit"));	
 				lowstocks.add(bar);	

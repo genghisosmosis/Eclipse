@@ -1,6 +1,5 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -58,35 +57,75 @@ public class Drinkorder {
 	public static  void processorder() {
 		ordercost = 0;
 		boolean valid = false;
+		boolean valid2 = false;
 		float tenderedamt = 0;
+		float change = 0;
+		float totalprice = 0;
+		float remainingbalance =0;
 		TillDisplay.pushmessage("\nTOTAL    :"+TillDisplay.Price.getText()+"\n");
+		
 		String tendered;
 		tendered = JOptionPane.showInputDialog("Please enter amount tendered ");
-
-		while (!valid){
+		for(Bar bar:Drinksorder){
+			BarDAO barDAO = new BarDAO();
+			ordercost = ordercost + (bar.getprice()*bar.getServeMultiplier());
+			totalprice = (float) ordercost/100;
+		barDAO.decrement(bar);}
+		while (!valid && !valid2){
 
 
 			try{
 				tenderedamt = Float.parseFloat(tendered);
-				valid = true;
-			}catch (NumberFormatException e) {tendered = JOptionPane.showInputDialog("Please enter amount tendered \n NUMBERS ONLY PLEASE");
+				valid = true;		
+					change = (totalprice - tenderedamt);
+					remainingbalance = change;
+					while (remainingbalance>0) {
+						boolean valid3=false;
+						while(!valid3){
+						try{
+						tenderedamt = Float.parseFloat(tendered);
+						valid3=true;
+						}catch (NumberFormatException e){tendered = JOptionPane.showInputDialog("Please enter amount tendered  \n NUMBERS ONLY PLEASE ");
+						};
+						
+						
+						currency=round(tenderedamt,2);
+						
+						TillDisplay.pushmessage("\nTendered  €"+currency+"\n");
+						currency=round(remainingbalance,2);
+						TillDisplay.pushmessage("\nBalance to pay  €"+currency+"\n");
+						tendered = JOptionPane.showInputDialog("Another  €"+ currency + " please" );
+						boolean valid4 = false;
+						while (!valid4){
+						try{
+						tenderedamt = Float.parseFloat(tendered);
+						remainingbalance = remainingbalance - tenderedamt;
+						 valid4 = true;
+						}catch (NumberFormatException e){tendered = JOptionPane.showInputDialog("Please enter NUMBERS!! ony \n Another €"+currency+" required.");}
+						};
+					valid2 = false;
+						}
+					}
+					valid2=true;
+				
+			}catch (NumberFormatException e) {tendered = JOptionPane.showInputDialog("Please enter amount tendered \n NUMBERS ONLY PLEASE ");
 
 			};
-		}
-		TillDisplay.pushmessage("\nTendered  €"+tendered+"\n");
-		for(Bar bar:Drinksorder){
-			BarDAO barDAO = new BarDAO();
-			ordercost = ordercost + (bar.getprice()*bar.getServeMultiplier());
-			float totalprice = (float) ordercost/100;
-			float change = (totalprice - tenderedamt);
-			currency=round(change,2);
-			barDAO.decrement(bar);
+			
+			}
+		
+		tenderedamt = Float.parseFloat(tendered);
+		currency=round(tenderedamt,2);
+		TillDisplay.pushmessage("\nTendered  €"+currency+"\n");
+		
+			currency=round(remainingbalance,2);
+			
 
-		}
+		
 		TillDisplay.pushmessage("\nChange   €"+currency+"\n");
 		TillDisplay.updateprice("€"+currency);
 		cancelorder();
+	
 	}
-
 }
 
