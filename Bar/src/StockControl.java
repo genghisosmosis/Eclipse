@@ -17,9 +17,6 @@ public class StockControl {
 		String newitem;
 		String itemprice = null;
 		String newalert;
-		String newbeverageclass;
-
-		BarDAO BevClassDAO= new BarDAO();
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel("Select Class");
 		panel.add(label);

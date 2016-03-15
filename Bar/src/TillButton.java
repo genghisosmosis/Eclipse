@@ -30,20 +30,27 @@ public class TillButton extends JButton{
 			TillDisplay.pushmessage((this.bar.getServing()) + " " +(this.bar.getitem()) +" " +(this.bar.getdisplayprice())+ "0\n");
 			Drinkorder.additem(bar);
 		}else{
+			int dq=0;
 			String newcount;
 			BarDAO barDAO=new BarDAO();
 			newcount = JOptionPane.showInputDialog("Please enter number of "+(this.bar.getDeliveryUnit()) +"s of "+(this.bar.getitem())+" delivered");
+			boolean checkint = false;
+			while(!checkint){
+				try{
+					dq = Integer.parseInt(newcount);
+					checkint = true;
+				}catch (NumberFormatException e){newcount =JOptionPane.showInputDialog("Please enter number of "+(this.bar.getDeliveryUnit()) +"s of "+(this.bar.getitem())+" delivered");
+
+				};
+			}
 			Bar bar = new Bar();
 			bar.setid(this.bar.getid());
-			System.out.println(bar.id);
-			int dq = Integer.parseInt(newcount);
-			System.out.println(dq);
 			bar.setdeliveryqty(dq);
 			barDAO.delivery(bar);
 
 
 		}
-		
+
 		if (deletemode){
 			BarDAO barDAO=new BarDAO();
 			Bar bar = new Bar();
@@ -55,8 +62,8 @@ public class TillButton extends JButton{
 			BarDAO barDAO=new BarDAO();
 			barDAO.increment(bar);
 			setreversetransaction(false);
-			
-			
+
+
 		}
 	}
 
@@ -74,11 +81,11 @@ public class TillButton extends JButton{
 
 	public static void setreversetransaction(boolean reverse) {
 		reversetransaction=reverse;
-		
-		
+
+
 	}
 	public static boolean getreversetransaction(){
 		return reversetransaction;
-		
+
 	}
 }
